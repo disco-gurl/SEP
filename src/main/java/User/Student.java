@@ -1,4 +1,4 @@
-package Controller.User;
+package User;
 
 public class Student {
 }

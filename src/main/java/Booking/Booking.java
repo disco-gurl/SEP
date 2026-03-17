@@ -1,4 +1,4 @@
-package Controller;
+package Booking;
 
 public class Booking {
 }
