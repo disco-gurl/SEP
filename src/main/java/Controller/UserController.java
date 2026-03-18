@@ -1,4 +1,4 @@
 package Controller;
 
-public class UserController {
+public class UserController extends Controller{
 }

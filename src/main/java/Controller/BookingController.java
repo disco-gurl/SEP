@@ -1,4 +1,5 @@
 package Controller;
 
-public class BookingController {
+public class BookingController extends Controller{
+    long nextBookingNumber;
 }

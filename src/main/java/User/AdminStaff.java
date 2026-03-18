@@ -1,4 +1,5 @@
 package User;
 
-public class AdminStaff {
+public class AdminStaff extends User{
+    String name;
 }

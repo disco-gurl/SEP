@@ -1,4 +1,6 @@
 package Controller;
 
-public class EventPerformance {
+public class EventPerformance extends Controller {
+    long nextEventID;
+    long nextPerformanceID;
 }
