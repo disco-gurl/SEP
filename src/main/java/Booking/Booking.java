@@ -1,8 +1,8 @@
 package Booking;
 
 public class Booking {
-    long bookingNumber;
-    int numTickets;
-    double amountPaid;
+    private long bookingNumber;
+    private int numTickets;
+    private double amountPaid;
     BookingStatus status;
 }

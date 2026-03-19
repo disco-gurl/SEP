@@ -1,8 +1,8 @@
 package Event;
 
 public class Event {
-    long eventID;
-    String title;
-    EventType type;
-    boolean isTicketed;
+    private long eventID;
+    private String title;
+    private EventType type;
+    private boolean isTicketed;
 }

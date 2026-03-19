@@ -1,8 +1,8 @@
 package User;
 
 public class EntertainmentProvider extends User {
-    String orgName;
-    String businessNumber;
-    String name;
-    String description;
+    private String orgName;
+    private String businessNumber;
+    private String name;
+    private String description;
 }
