@@ -1,11 +1,14 @@
 package Controller;
 
-abstract class Controller {
-    private User currentUser;
-    private View view;
+import User.User;
+import View.View;
+
+public abstract class Controller {
+    protected static User currentUser;
+    protected static View view;
 
     protected Controller(View view){
-        this.currentUser = null;
-        this.view = view;
+        currentUser = null;
+        Controller.view = view;
     }
 }

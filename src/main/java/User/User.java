@@ -1,6 +1,6 @@
 package User;
 
-abstract class User {
-    private String email;
-    private String password;
+public abstract class User {
+    public String email;
+    public String password;
 }
