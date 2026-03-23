@@ -2,6 +2,7 @@ package User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import Event.Event;
 
 /**
  * An EP is an organisation that creates and manages events and the even performances.

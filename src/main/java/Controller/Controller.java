@@ -7,8 +7,8 @@ import User.EntertainmentProvider;
 import View.View;
 
 public abstract class Controller {
-    private User currentUser;
-    private View view;
+    protected static User currentUser;
+    protected static View view;
 
     /**
      * The constructor of a controller with the given view.
@@ -16,8 +16,8 @@ public abstract class Controller {
      * @param view
      */
     protected Controller(View view) {
-        this.currentUser = null;
-        this.view = view;
+        currentUser = null;
+        Controller.view = view;
     }
 
     protected View getView() {
