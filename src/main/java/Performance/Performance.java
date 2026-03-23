@@ -133,4 +133,37 @@ public class Performance {
         return event.getTitle();
     }
 
+    public String toString() {
+        String info = "Performance ID: " + performanceId
+                + "\nEvent: " + event.getTitle()
+                + "\nStart: " + startDateTime
+                + "\nEnd: " + endDateTime
+                + "\nPerformers: " + String.join(", ", performerNames)
+                + "\nVenue: " + venueAddress
+                + "\nCapacity: " + venueCapacity
+                + "\nOutdoors: " + venueIsOutdoors
+                + "\nSmoking allowed: " + venueAllowsSmoking;
+
+        if (event.getIsTicketed()) {
+            info += "\nTicket Price: £" + getFinalTicketPrice();
+            info += "\nTickets Available: " + (numTicketsTotal - numTicketsSold);
+        } else {
+            info += "\nThis is a non-ticketed event.";
+        }
+
+        info += "\nEvent Average Rating: " + event.getAverageRatingOfPerformances();
+
+        Collection<String> reviews = event.getAllPerformanceReviews();
+        if (reviews.isEmpty()) {
+            info += "\nNo reviews yet.";
+        } else {
+            info += "\nReviews:";
+            for (String r : reviews) {
+                info += "\n  - " + r;
+            }
+        }
+
+        return info;
+    }
+
 }
