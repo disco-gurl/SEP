@@ -34,6 +34,66 @@ public class Performance {
         this.sponsoredAmount = 0;
     }
 
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
+    }
+
+    public LocalDateTime getEndDateTime() {
+        return endDateTime;
+    }
+
+    public Collection<String> getPerformerNames() {
+        return performerNames;
+    }
+
+    public String getVenueAddress() {
+        return venueAddress;
+    }
+
+    public int getVenueCapacity() {
+        return venueCapacity;
+    }
+
+    public boolean isVenueOutdoors() {
+        return venueIsOutdoors;
+    }
+
+    public boolean isVenueAllowsSmoking() {
+        return venueAllowsSmoking;
+    }
+
+    public int getNumTicketsTotal() {
+        return numTicketsTotal;
+    }
+
+    public double getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public PerformanceStatus getStatus() {
+        return status;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public Collection<Integer> getReviewRatings() {
+        return reviewRatings;
+    }
+
+    public Collection<String> getReviewComments() {
+        return reviewComments;
+    }
+
+    public boolean checkHasNotHappenedYet() {
+        return endDateTime.isAfter(LocalDateTime.now());
+    }
+
+    public boolean checkCreatedByEP(String email) {
+        return event.getOrganiserEmail().equals(email);
+    }
+
     public boolean checkIfEventIsTicketed() {
         return event.getIsTicketed();
     }

@@ -29,7 +29,7 @@ public abstract class User {
      * Checks whether the password matches
      *
      * @param password
-     * @return 
+     * @return
      */
     public boolean checkPassword(String password) {
         return this.password.equals(password);
