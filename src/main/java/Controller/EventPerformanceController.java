@@ -21,5 +21,47 @@ public class EventPerformanceController extends Controller {
         this.performances = new ArrayList<>();
     }
 
-    
+    /**
+     * Using an ID finds a performance accordingly.
+     *
+     * @param performanceID
+     * @return
+     */
+    private Performance getPerformanceByID(long performanceID) {
+        for (Performance p : performances) {
+            if (p.getID() == performanceID) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    /**
+     *
+     */
+    public void viewPerformance() {
+        if (getCurrentUser() == null) {
+            getView().displayError("You must be logged in to view a performance");
+            return;
+        }
+
+        // get the performance ID for the specific performance.
+        String input = getView().getInput("Enter performance ID: ");
+
+        // parse it as a number or send back error to display if unable.
+        long performanceID;
+        try {
+            performanceID = Long.parseLong(input.trim());
+        }   catch (NumberFormatException e) {
+            getView().displayError("Invalid format");
+            return;
+        }
+
+        Performance performance = getPerformanceByID(performanceID);
+
+        if (performance == null) {
+            getView().displayError("No performance found with performance ID" + performanceID);
+            return;
+        }
+    }
 }
