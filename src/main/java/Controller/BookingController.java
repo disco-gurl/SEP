@@ -84,6 +84,7 @@ public class BookingController extends Controller{
 
             }
         }
+
     /**
      *  Review use case
      */
@@ -134,6 +135,49 @@ public class BookingController extends Controller{
         return performance;
     }
 
-    
+    // Checks if review is possible after time has passed only and only if student has had a booking.
+    private boolean studentReviewPossible(Student student, Performance performance) {
+        if (performance.checkHasNotHappenedYet()) {
+            getView().displayError("You can only review performancesthat have already taken place.");
+            return false;
+        }
+
+        for (Booking b : student.getBookings()) {
+            if (b.getPerformanceID() == performance.getID()) {
+                return true;
+            }
+        }
+        getView().displayError("You can only review performances you have booked.");
+        return false;
+    }
+
+    private void submitReview(Performance performance) {
+        String Input = getView().getInput("Enter the rating, 1 to 5");
+        int rating;
+        try {
+            rating = Integer.parseInt(Input.trim());
+        } catch (NumberFormatException e) {
+            getView().displayError("Invalid rating format.");
+            return;
+        }
+        if (rating < 1 || rating > 5) {
+            getView().displayError("Rating must be between 1 and 5.");
+            return;
+        }
+
+        String comment = getView().getInput("Enter a comment (or press Enter to skip): ");
+
+        performance.review(rating, comment);
+        getView().displaySuccess("Your review has been submitted successfully.");
+    }
+
+    public Performance getPerformanceByID(long performanceID) {
+        for (Performance p: performances) {
+            if (p.getID() == performanceID) {
+                return p;
+            }
+        }
+        return null;
+    }
 }
 

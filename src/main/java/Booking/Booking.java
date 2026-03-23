@@ -56,4 +56,8 @@ public class Booking {
                 "\nStatus: " + status +
                 "\n" + performance.toString();
     }
+
+    public long getPerformanceID() {
+        return performance.getID();
+    }
 }

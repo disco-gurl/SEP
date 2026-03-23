@@ -133,6 +133,11 @@ public class Performance {
         return event.getTitle();
     }
 
+    public void review(int rating, String comment) {
+        reviewRatings.add(rating);
+        reviewComments.add(comment);
+    }
+
     public String toString() {
         String info = "Performance ID: " + performanceId
                 + "\nEvent: " + event.getTitle()
