@@ -3,6 +3,7 @@ package Event;
 import Performance.Performance;
 import java.util.Collection;
 import User.EntertainmentProvider;
+import java.util.ArrayList;
 
 public class Event {
     private long eventID;
@@ -26,11 +27,28 @@ public class Event {
     }
 
     public String getOrganiserEmail() {
-        return organiser.email;
+        return organiser.getEmail();
+    }
+
+    public String getOrganiserName() {
+        return organiser.getName();
     }
 
     public String getTitle() {
         return title;
     }
+
+    public long getEventID() {
+        return eventID;
+    }
+
+    public EventType getType() {
+        return type;
+    }
+
+    public Collection<Performance> getPerformances() {
+        return performances;
+    }
+
 
 }
