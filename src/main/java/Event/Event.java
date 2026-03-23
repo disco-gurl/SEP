@@ -50,5 +50,45 @@ public class Event {
         return performances;
     }
 
+    /**
+     * Method calculates the average rating across all the performances
+     *
+     * @return
+     */
+    public double getAverageRatingOfPerformances() {
+        int totalRatings = 0;
+        int count = 0;
 
+        for (Performance p : performances) {
+            for (int rating : p.getReviewRatings()) {
+                totalRatings += rating;
+                count++;
+            }
+        }
+
+        if (count == 0) {
+            return 0;
+        }
+        return (double) totalRatings / count;
+    }
+
+    public Collection<String> getAllPerformanceReviews() {
+        Collection<String> allReviews = new ArrayList<>();
+
+        for (Performance p : performances) {
+            Integer[] ratings = p.getReviewRatings().toArray(new Integer[0]);
+            String[] comments = p.getReviewComments().toArray(new String[0]);
+
+            for (Performance p: performances) {
+            for (int i = 0; i < ratings.length; i++) {
+                String review = "Performance " + p.getID() + " - Rating: " + ratings[i];
+                if (i < comments.length && comments[i] != null && !comments[i].isEmpty()) {
+                    review += " - Comment: " + comments[i];
+                }
+                allReviews.add(review);
+            }
+        }
+        return allReviews;
+        }
+    }
 }
