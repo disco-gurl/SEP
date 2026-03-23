@@ -1,10 +1,10 @@
 package Controller;
 import External.MockPaymentSystem;
 import Performance.Performance;
-import View.View;
 import User.Student;
 import Booking.Booking;
 import java.util.Collection;
+import View.View;
 
 public class BookingController extends Controller{
     private long nextBookingNumber;

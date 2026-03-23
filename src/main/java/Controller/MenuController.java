@@ -1,9 +1,10 @@
 package Controller;
 
 import Performance.Performance;
-import View.View;
 
 import java.util.Collection;
+import View.View;
+
 
 public class MenuController extends Controller {
     private UserController userController;

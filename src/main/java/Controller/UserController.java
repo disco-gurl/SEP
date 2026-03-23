@@ -1,8 +1,8 @@
 package Controller;
 import User.User;
-import View.View;
 
 import java.util.Collection;
+import View.View;
 
 public class UserController extends Controller{
     private static final String PREREGISTERED_USERS_FILE_PATH = "users.txt";
