@@ -72,23 +72,36 @@ public class Event {
         return (double) totalRatings / count;
     }
 
+    /**
+     * Returns all individual reviews across all
+     * performances of this event.
+     */
     public Collection<String> getAllPerformanceReviews() {
         Collection<String> allReviews = new ArrayList<>();
 
+        // Go through each performance of this event
         for (Performance p : performances) {
+
+            // Get ratings and comments as arrays so can match them by position
             Integer[] ratings = p.getReviewRatings().toArray(new Integer[0]);
             String[] comments = p.getReviewComments().toArray(new String[0]);
 
-            for (Performance p: performances) {
+            // Go through each review for this performance
             for (int i = 0; i < ratings.length; i++) {
-                String review = "Performance " + p.getID() + " - Rating: " + ratings[i];
-                if (i < comments.length && comments[i] != null && !comments[i].isEmpty()) {
+
+                String review = "Performance " + p.getID()
+                        + " - Rating: " + ratings[i];
+
+                // Add the comment
+                boolean hasComment = i < comments.length && comments[i] != null && !comments[i].isEmpty();
+
+                if (hasComment) {
                     review += " - Comment: " + comments[i];
                 }
+
                 allReviews.add(review);
             }
         }
+
         return allReviews;
-        }
     }
-}
