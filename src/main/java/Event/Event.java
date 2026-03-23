@@ -89,8 +89,7 @@ public class Event {
             // Go through each review for this performance
             for (int i = 0; i < ratings.length; i++) {
 
-                String review = "Performance " + p.getID()
-                        + " - Rating: " + ratings[i];
+                String review = "Performance " + p.getID() + " - Rating: " + ratings[i];
 
                 // Add the comment if it exists with checks.
                 boolean hasComment = i < comments.length && comments[i] != null && !comments[i].isEmpty();
@@ -105,3 +104,4 @@ public class Event {
 
         return allReviews;
     }
+}

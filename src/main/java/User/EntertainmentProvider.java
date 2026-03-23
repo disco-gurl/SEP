@@ -33,11 +33,6 @@ public class EntertainmentProvider extends User {
         this.events = new ArrayList<>();
     }
 
-    /**
-     * The getters and setters needed in the method.
-     * @return
-     */
-
     public String getOrgName() {
         return orgName;
     }
@@ -54,20 +49,13 @@ public class EntertainmentProvider extends User {
         return description;
     }
 
-    /**
-     * Adds an event to this EP object.
-     *
-     * @param event the added event
-     */
+
+    // Adds an event to this EP object.
     public void addEvent(Event event) {
         events.add(event);
     }
 
-    /**
-     * gets the events of this EP.
-     *
-     * @return the collection of events.
-     */
+    // gets the events of this EP.
     public Collection<Event> getEvents() {
         return events;
     }
