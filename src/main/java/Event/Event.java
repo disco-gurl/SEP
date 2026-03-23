@@ -92,7 +92,7 @@ public class Event {
                 String review = "Performance " + p.getID()
                         + " - Rating: " + ratings[i];
 
-                // Add the comment if it exists with checks. 
+                // Add the comment if it exists with checks.
                 boolean hasComment = i < comments.length && comments[i] != null && !comments[i].isEmpty();
 
                 if (hasComment) {
