@@ -81,6 +81,59 @@ public class BookingController extends Controller{
 
             String bookingRecord = booking.generateBookingRecord();
             view.displayBookingRecord(bookingRecord);
+
+            }
         }
+    /**
+     *  Review use case
+     */
+    public void reviewPerformance() {
+        if (getCurrentUser() == null) {
+            getView().displayError("You must be logged in to review a performance");
+            return;
+        }
+
+        // Must be student for review according to requirements.
+        if (!(getCurrentUser() instanceof Student)) {
+            getView().displayError("You must be a student to review a performance.");
+            return;
+        }
+
+        Student student = (Student) getCurrentUser();
+
+        Performance performance = requestPerformance();
+        if (performance == null) {
+            return;
+        }
+
+        if (!studentReviewPossible(student, performance)) {
+            return;
+        }
+
+        // get the review and submit it
+        submitReview(performance);
     }
+
+    public Performance requestPerformance() {
+        String input = getView().getInput("Enter the performance ID: ");
+
+        long performanceID;
+        try {
+            performanceID = Long.parseLong(input.trim());
+        } catch (NumberFormatException e) {
+            getView().displayError("Invalid peformance ID. ");
+            return null;
+        }
+
+        Performance performance = getPerformanceByID(performanceID);
+
+        if (performance == null) {
+            getView().displayError("No performance found with " + performanceID);
+        }
+
+        return performance;
+    }
+
+    
 }
+
