@@ -30,7 +30,26 @@ public class UserController extends Controller{
         this.verificationService = verificationService;
     }
 
-    public void registerEntertainmentProvider() {
+    public void login() {
+        String email = getView().getInput("Enter email: ");
+        String password = getView().getInput("Enter password: ");
+
+        for (User x : users) {
+            if (x.getEmail().equals(email) && x.checkPassword(password)) {
+                setCurrentUser(x);
+                getView().displaySuccess("Login successful");
+                return;
+            }
+        }
+        getView().displayError("Invalid email or password");
+    }
+
+    public void logout() {
+        setCurrentUser(null);
+        getView().displaySuccess("Logged out successfully");
+    }
+
+public void registerEntertainmentProvider() {
         if (getCurrentUser() != null) {
             getView().displayError("You must log out before registering a new entertainment provider.");
         }
