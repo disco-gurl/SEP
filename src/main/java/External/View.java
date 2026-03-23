@@ -10,7 +10,7 @@ import java.util.Collection;
  * performance listings, and booking records.
  */
 
-public interface view {
+public interface View {
     /**
      * method to prompt user and then get their response.
      *
