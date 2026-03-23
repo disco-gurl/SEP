@@ -6,10 +6,6 @@ import User.Student;
 import User.EntertainmentProvider;
 import View.View;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 public abstract class Controller {
     private User currentUser;
     private View view;
