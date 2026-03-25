@@ -16,8 +16,8 @@ public abstract class Controller {
      * @param view
      */
     protected Controller(View view) {
-        currentUser = null;
-        Controller.view = view;
+        this.currentUser = null;
+        this.view = view;
     }
 
     protected View getView() {
