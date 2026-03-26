@@ -13,10 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SystemTest {
     private static Collection<User> loadFacultyMembers() {
-        RegistrationUtility utility = new RegistrationUtility("src/resources/mock_faculty.txt");
+        RegistrationUtility utility = new RegistrationUtility("/Users/tracey/IdeaProjects/SEP/src/test/java/PreFacultyMemberTest/FakeLogin.txt");
         Collection<FacultyMember> facultyMembers = utility.registerFaculty();
-        Collection<User> users = new ArrayList<>(facultyMembers);
-        return users;
+        return new ArrayList<>(facultyMembers);
     }
 
     static class fakeView implements View{
@@ -30,7 +29,7 @@ public class SystemTest {
 
         @Override
         public String getInput(String inputPrompt) {
-            return "";
+            return inputs.poll();
         }
 
         @Override
@@ -67,7 +66,7 @@ public class SystemTest {
         display.addInput("new");
         controller.login();
 
-        assertEquals("Password changed", display.getLastSuccess(),
+        assertEquals("Password Change Successful", display.getLastSuccess(),
                 "Change success for password");
     }
 
@@ -80,6 +79,7 @@ public class SystemTest {
         display.addInput("group29");
         display.addInput("no");
         controller.login();
+
 
         assertEquals("Login successful", display.getLastSuccess(),
                 "First Login");
@@ -102,7 +102,7 @@ public class SystemTest {
         display.addInput("group29");
         controller.login();
 
-        assertEquals("Login successful.", display.getLastSuccess(),
+        assertEquals("Login successful", display.getLastSuccess(),
                 "No password change");
     }
 
@@ -116,7 +116,7 @@ public class SystemTest {
         controller.login();
 
         assertNotNull(display.getLastError(),
-                "Wrong Password");
+                "Invalid email or password");
         assertTrue(display.getLastError().contains("attempts 1"),
                 "Increase log in");
     }
@@ -131,11 +131,11 @@ public class SystemTest {
         controller.login();
 
         display.addInput("tracey@ed.ac.uk");
-        display.addInput("group29");
+        display.addInput("wrong");
         controller.login();
 
         assertNotNull(display.getLastError(),
-                "Wrong Password");
+                "Invalid email or password");
         assertTrue(display.getLastError().contains("attempts 2"),
                 "Increase log in");
     }
@@ -151,7 +151,7 @@ public class SystemTest {
         controller.login();
         controller.logout();
 
-        assertEquals("Logged out successfully.", display.getLastSuccess(),
+        assertEquals("Logged out successfully", display.getLastSuccess(),
                 "Successful log out");
     }
 
@@ -164,7 +164,7 @@ public class SystemTest {
         display.addInput("password");
         controller.login();
 
-        assertEquals("Invalid email or password.", display.getLastError(),
+        assertEquals("Invalid email or password", display.getLastError(),
                 "Error");
     }
 
@@ -189,6 +189,7 @@ public class SystemTest {
                 f = (FacultyMember) x;
             }
         }
+        assert f != null;
         assertEquals(0, f.getLoginAttempt(),
                 "Login Success");
     }

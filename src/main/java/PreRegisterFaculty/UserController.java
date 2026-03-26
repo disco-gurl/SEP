@@ -23,8 +23,7 @@ public class UserController extends Controller {
                 currentUser = x;
 
                 //check if they are a faulty member
-                if (x instanceof FacultyMember) {
-                    FacultyMember f = (FacultyMember) x;
+                if (x instanceof FacultyMember f) {
                     f.resetAttempts(); //if they are a faculty member then login is 0
 
 
@@ -37,11 +36,21 @@ public class UserController extends Controller {
                             f.setPassword(newPassword);
                             view.displaySuccess("Password Change Successful");
                         }
+                        else {
+                            view.displaySuccess("Login successful");
+                        }
 
                         f.setFirstLogin(false); //it is not the first log in
                     }
+
+                    else {
+                        view.displaySuccess("Login successful");
+                    }
                 }
-                view.displaySuccess("Login successful");
+                else {
+                    view.displaySuccess("Login successful");
+                }
+
                 return;
             }
         }
@@ -50,7 +59,7 @@ public class UserController extends Controller {
           if (x.getEmail().equals(email) && x instanceof FacultyMember) {
               FacultyMember f = (FacultyMember) x;
               f.increaseLogins(); //increase attempts if wrong password
-              view.displayError("Invalid Password" + f.getLoginAttempt());
+              view.displayError("Invalid Password, attempts " + f.getLoginAttempt());
               return;
           }
         }
