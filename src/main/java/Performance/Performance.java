@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import Event.Event;
 import Booking.Booking;
+import java.util.ArrayList;
 
 public class Performance {
     private long performanceId;
@@ -32,6 +33,49 @@ public class Performance {
         this.event = event;
         this.isSponsored = false;
         this.sponsoredAmount = 0;
+    }
+
+    // constructor that takes in all the details, used when creating performances through an event
+    public Performance(long performanceId, LocalDateTime startDateTime, LocalDateTime endDateTime,
+                       Collection<String> performerNames, String venueAddress, int venueCapacity,
+                       boolean venueIsOutdoors, boolean venueAllowsSmoking,
+                       int numTicketsTotal, double ticketPrice, Event event) {
+
+        this.performanceId = performanceId;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.performerNames = performerNames;
+        this.venueAddress = venueAddress;
+        this.venueCapacity = venueCapacity;
+        this.venueIsOutdoors = venueIsOutdoors;
+        this.venueAllowsSmoking = venueAllowsSmoking;
+        this.numTicketsTotal = numTicketsTotal;
+        this.numTicketsSold = 0;
+        this.ticketPrice = ticketPrice;
+        this.event = event;
+        this.isSponsored = false;
+        this.sponsoredAmount = 0;
+        this.reviewRatings = new ArrayList<>();
+        this.reviewComments = new ArrayList<>();
+        this.status = PerformanceStatus.ACTIVE;
+        this.bookings = new ArrayList<>();
+
+    }
+
+    // sponsor use case that sets the sponsored flag and amount
+    public void sponsor(double amount) {
+
+        this.isSponsored = true;
+        this.sponsoredAmount = amount;
+
+    }
+
+    public boolean isSponsored() {
+        return isSponsored;
+    }
+
+    public double getSponsoredAmount() {
+        return sponsoredAmount;
     }
 
     public LocalDateTime getStartDateTime() {

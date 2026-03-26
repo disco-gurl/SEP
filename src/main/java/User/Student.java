@@ -31,6 +31,11 @@ public class Student extends User {
 
     public StudentPreferences getStudentPreferences() {return studentPreferences;}
 
+    public void setStudentPreferences(StudentPreferences preferences) {
+
+        this.studentPreferences = preferences;
+    }
+
     public Collection<Booking> getBookings() {
         return bookings;
     }
