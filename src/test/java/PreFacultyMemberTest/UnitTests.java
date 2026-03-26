@@ -24,8 +24,12 @@ public class UnitTests {
     }
 
     @Test
-    public void testChecks() {
+    public void testChecksTrue() {
         assertTrue(facultyMember.check("tracey@ed.ac.uk", "group29"));
+    }
+
+    @Test
+    public void testChecksFalse(){
         assertFalse(facultyMember.check("tracey@ed.ac.uk", "wrong"));
     }
 
