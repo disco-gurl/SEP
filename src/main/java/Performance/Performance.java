@@ -34,6 +34,8 @@ public class Performance {
         this.sponsoredAmount = 0;
     }
 
+    public Collection<Booking> getBookings() { return bookings; }
+
     public LocalDateTime getStartDateTime() {
         return startDateTime;
     }
@@ -74,9 +76,9 @@ public class Performance {
         return status;
     }
 
-    public Event getEvent() {
-        return event;
-    }
+    public void setStatus(PerformanceStatus status) { this.status = status; }
+
+    public Event getEvent() { return event; }
 
     public Collection<Integer> getReviewRatings() {
         return reviewRatings;
@@ -108,6 +110,8 @@ public class Performance {
         }
         return ticketPrice;
     }
+
+    public double getTransactionAmount() { return ticketPrice * numTicketsSold; }
 
     public void addBooking(Booking b) {
         bookings.add(b);

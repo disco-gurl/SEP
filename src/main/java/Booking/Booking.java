@@ -57,9 +57,7 @@ public class Booking {
                 "\n" + performance.toString();
     }
 
-    public long getPerformanceID() {
-        return performance.getID();
-    }
+    public long getPerformanceID() { return performance.getID(); }
 
     public long getBookingNumber() { return bookingNumber; }
 

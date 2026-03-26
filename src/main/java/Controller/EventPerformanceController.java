@@ -1,5 +1,8 @@
 package Controller;
 
+import External.MockPaymentSystem;
+import External.PaymentSystem;
+import User.EntertainmentProvider;
 import User.Student;
 import User.StudentPreferences;
 import View.View;
@@ -10,6 +13,8 @@ import Event.EventType;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import static Performance.PerformanceStatus.CANCELLED;
 
 public class EventPerformanceController extends Controller {
     private long nextEventID;
@@ -147,6 +152,62 @@ public class EventPerformanceController extends Controller {
         for (Performance p: performancesOnDate) {
             getView().displaySuccess(p.toString());
         }
+    }
 
+    public void cancelPerformance() {
+        if (!(getCurrentUser() instanceof EntertainmentProvider ep)) {
+            getView().displayError("You must be logged in as an Entertainment Provider.");
+            return;
+        }
+
+        Performance performance = null;
+        while (performance == null) {
+            String input = getView().getInput("Enter performance ID to cancel: ");
+            long performanceID;
+            try {
+                performanceID = Long.parseLong(input.trim());
+            } catch (NumberFormatException e) {
+                getView().displayError("Invalid performance ID format.");
+                continue;
+            }
+
+            performance = getPerformanceByID(performanceID);
+
+            if (performance == null || !performance.checkCreatedByEP(ep.getEmail())) {
+                getView().displayError("Performance ID invalid or does not belong to you.");
+                performance = null;
+            }
+        }
+
+        String message = "";
+        while (message.isBlank()) {
+            message = getView().getInput("Enter a message to send to students: ").trim();
+            if (message.isBlank()) {
+                getView().displayError("Message cannot be empty.");
+            }
+        }
+
+        if (!performance.getBookings().isEmpty()) {
+
+            MockPaymentSystem paymentSystem = new MockPaymentSystem();
+
+            boolean refundSuccess = paymentSystem.processRefund(
+                    performance.getNumTicketsSold(),
+                    performance.getEventTitle(),
+                    " ",
+                    0,
+                    performance.getOrganiserEmail(),
+                    performance.getTransactionAmount(),
+                    message);
+
+            if (!refundSuccess) {
+                getView().displayError("Refunds could not be processed. Performance not cancelled.");
+                return;
+            }
+        }
+
+        performance.setStatus(CANCELLED);
+        getView().displaySuccess("Performance " + performance.getID() +
+                " has been cancelled successfully.");
     }
 }
