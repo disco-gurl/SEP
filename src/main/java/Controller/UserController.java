@@ -5,6 +5,9 @@ import User.EntertainmentProvider;
 import User.User;
 import View.View;
 
+import User.Student;
+import User.StudentPreferences;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -105,6 +108,55 @@ public void registerEntertainmentProvider() {
         getView().displaySuccess(orgName + " has been successfully registered.");
 
     }
+
+
+    // Edit preferences use case, lets a student set which event types they prefer.
+    //they enter a comma separated string like "Music,Dance,Sports"
+    public void editPreferences() {
+        if (getCurrentUser() == null) {
+            getView().displayError("You must be logged in to edit preferences.");
+            return;
+        }
+
+        // only students can do this
+        if (!(getCurrentUser() instanceof Student)) {
+
+            getView().displayError("Only students can edit preferences.");
+            return;
+        }
+
+        Student student = (Student) getCurrentUser();
+
+        // show what they currently have if anything
+        if (student.getStudentPreferences() != null) {
+
+            getView().displaySuccess("Current " + student.getStudentPreferences().toString());
+        }
+
+        String rawPreferences = getView().getInput(
+                "Enter your preferred event types (comma-separated, e.g. Music,Dance,Sports): ");
+
+        // if they dont have preferences yet we need to create the object
+        StudentPreferences preferences = student.getStudentPreferences();
+
+        if (preferences == null) {
+            preferences = new StudentPreferences(student);
+            student.setStudentPreferences(preferences);
+        }
+
+        boolean success = preferences.updatePreferences(rawPreferences);
+
+        if (success) {
+
+            getView().displaySuccess("Preferences updated successfully. " + preferences.toString());
+
+        } else {
+
+            getView().displayError(
+                    "No valid preferences were recognised. Valid types: Music, Theatre, Dance, Movie, Sports.");
+        }
+    }
+
 
     private boolean EPAccountAlreadyExists(
             String email,
