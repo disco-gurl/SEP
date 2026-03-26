@@ -80,12 +80,12 @@ public class EventPerformanceController extends Controller {
 
         LocalDateTime targetDate;
         while (true) {
-            String input = getView().getInput("Enter a date to search for performances (dd-mm-yyyy): ");
+            String input = getView().getInput("Enter a date to search for performances (yyyy-mm-dd): ");
             try {
                 targetDate = LocalDateTime.parse(input.trim() + "T00:00:00"); // assuming date-only input
                 break; // valid date, exit the loop
             } catch (Exception e) {
-                getView().displayError("Invalid date format. Please use dd-mm-yyyy");
+                getView().displayError("Invalid date format. Please use yyyy-mm-dd");
             }
         }
 
@@ -108,12 +108,27 @@ public class EventPerformanceController extends Controller {
                 Collection<Performance> matching = new ArrayList<>();
                 Collection<Performance> nonMatching = new ArrayList<>();
 
+                StudentPreferences prefs = student.getStudentPreferences();
+
                 for (Performance p : performancesOnDate) {
                     EventType type  = p.getEvent().getType();
                     boolean matches = false;
-                    StudentPreferences prefs = student.getStudentPreferences();
 
-                    if (prefs.getPreferDanceEvents() && type == EventType.Theatre) {
+                    if (prefs.getPreferDanceEvents() && type == EventType.Dance) {
+                        matches = true;
+                    }
+                    if (prefs.getPreferTheaterEvents() && type == EventType.Theatre) {
+                        matches = true;
+                    }
+                    if (prefs.getPreferMovieEvents() && type == EventType.Movie) {
+                        matches = true;
+                    }
+                    if (prefs.getPreferMusicEvents() && type == EventType.Music) {
+                        matches = true;
+                    }
+                    if (prefs.getPreferSportsEvents() && type == EventType.Sports) {
+                        matches = true;
+                    }
 
 
                     if (matches) {
@@ -127,7 +142,6 @@ public class EventPerformanceController extends Controller {
                 performancesOnDate.addAll(matching);
                 performancesOnDate.addAll(nonMatching);
             }
-
         }
 
         for (Performance p: performancesOnDate) {

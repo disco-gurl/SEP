@@ -151,7 +151,7 @@ public class SystemTest {
         controller.login();
         controller.logout();
 
-        assertEquals("Logged out.", display.getLastSuccess(),
+        assertEquals("Logged out successfully.", display.getLastSuccess(),
                 "Successful log out");
     }
 
