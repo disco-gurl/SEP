@@ -29,7 +29,11 @@ public class Student extends User {
         bookings.add(booking);
     }
 
+    public StudentPreferences getStudentPreferences() {return studentPreferences;}
+
     public Collection<Booking> getBookings() {
         return bookings;
     }
+
 }
+

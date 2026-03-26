@@ -36,20 +36,20 @@ public class Booking {
     }
 
     public boolean checkBookedByStudent(String email) {
-        return student.email.equals(email);
+        return student.getEmail().equals(email);
     }
 
     public String getStudentDetails() {
-        return "Name: " + student.name +
-                "\nEmail: " + student.email +
-                "\nPhone: " + student.phoneNumber;
+        return "Name: " + student.getName() +
+                "\nEmail: " + student.getEmail() +
+                "\nPhone: " + student.getPhoneNumber();
     }
 
     public String generateBookingRecord() {
         return "Booking Number: " + bookingNumber +
-                "\nStudent Name: " + student.name +
-                "\nStudent Email: " + student.email +
-                "\nStudent Phone: " + student.phoneNumber +
+                "\nStudent Name: " + student.getName() +
+                "\nStudent Email: " + student.getEmail() +
+                "\nStudent Phone: " + student.getPhoneNumber() +
                 "\nNumber of Tickets: " + numTickets +
                 "\nAmount Paid: " + amountPaid +
                 "\nBooking Date: " + bookingDateTime +
