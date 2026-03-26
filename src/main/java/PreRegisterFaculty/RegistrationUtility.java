@@ -9,7 +9,7 @@ import java.util.Collection;
 public class RegistrationUtility {
     private String filePath;
 
-    public RegistrationUtility(String s) {
+    public RegistrationUtility(String filePath) {
         this.filePath = filePath;
     }
 

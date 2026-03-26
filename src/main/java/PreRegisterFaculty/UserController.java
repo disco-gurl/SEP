@@ -19,7 +19,7 @@ public class UserController extends Controller {
         String password = view.getInput("Enter password: ");
 
         for (User x : users) {
-            if (x.email.equals(email) && x.password.equals(password)) {
+            if (x.getEmail().equals(email) && x.getPassword().equals(password)) {
                 currentUser = x;
 
                 //check if they are a faulty member
@@ -47,7 +47,7 @@ public class UserController extends Controller {
         }
 
         for (User x : users) {
-          if (x.email.equals(email) && x instanceof FacultyMember) {
+          if (x.getEmail().equals(email) && x instanceof FacultyMember) {
               FacultyMember f = (FacultyMember) x;
               f.increaseLogins(); //increase attempts if wrong password
               view.displayError("Invalid Password" + f.getLoginAttempt());
