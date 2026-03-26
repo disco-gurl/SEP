@@ -3,6 +3,8 @@ import External.MockPaymentSystem;
 import Performance.Performance;
 import User.Student;
 import Booking.Booking;
+
+import java.time.LocalDateTime;
 import java.util.Collection;
 import View.View;
 
@@ -58,8 +60,8 @@ public class BookingController extends Controller{
             performance.addBooking(booking);
 
             String eventTitle = performance.getEventTitle();
-            String studentEmail = student.email;
-            int studentPhone = student.phoneNumber;
+            String studentEmail = student.getEmail();
+            int studentPhone = student.getPhoneNumber();
             String epEmail = performance.getOrganiserEmail();
             double finalTicketPrice = performance.getFinalTicketPrice();
             double transactionAmount = finalTicketPrice * numTicketsRequested;
@@ -178,6 +180,56 @@ public class BookingController extends Controller{
             }
         }
         return null;
+    }
+
+    public void cancelBooking(int bookingID){
+        if (getCurrentUser() == null){
+            getView().displayError("You must be logged in to cancel a booking.");
+            return;
+        }
+
+        if (!(getCurrentUser() instanceof Student)){
+            getView().displayError("You must be a student to cancel a booking.");
+            return;
+        }
+
+        Student student = (Student) getCurrentUser();
+        Booking foundBooking = null;
+
+        for (Booking b : student.getBookings()) {
+            if (b.getBookingNumber() == bookingID) {
+                foundBooking = b;
+                break;
+            }
+        }
+
+        if (foundBooking == null) {
+            getView().displayError("Booking not found.");
+            return;
+        }
+
+        LocalDateTime start = foundBooking.getPerformance().getStartDateTime();
+        LocalDateTime now = LocalDateTime.now();
+        if (now.plusHours(24).isAfter(start)) {
+            getView().displayError("Cannot cancel booking within 24 hours.");
+            return;
+        }
+
+        boolean refunded = paymentSystem.processRefund(foundBooking.getNumTickets(),
+                foundBooking.getPerformance().getEventTitle(),
+                student.getEmail(),
+                student.getPhoneNumber(),
+                foundBooking.getPerformance().getEvent().getOrganiserEmail(),
+                foundBooking.getAmountPaid(),
+                null);
+
+        if (!refunded) {
+            getView().displayError("Refund unsuccessful.");
+            return;
+        }
+
+        foundBooking.cancelByStudent();
+        getView().displaySuccess("Booking has been cancelled.");
     }
 }
 

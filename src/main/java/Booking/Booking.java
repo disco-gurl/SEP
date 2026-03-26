@@ -60,4 +60,12 @@ public class Booking {
     public long getPerformanceID() {
         return performance.getID();
     }
+
+    public long getBookingNumber() { return bookingNumber; }
+
+    public Performance getPerformance() { return performance; }
+
+    public int getNumTickets() { return numTickets; }
+
+    public double getAmountPaid() { return amountPaid; }
 }

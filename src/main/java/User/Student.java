@@ -10,10 +10,10 @@ public class Student extends User {
     private int phoneNumber;
     private Collection<Booking> bookings;
 
-    public Student(String email, String password, String name, int phonenumber) {
+    public Student(String email, String password, String name, int phoneNumber) {
         super(email, password);
         this.name = name;
-        this.phoneNumber = phonenumber;
+        this.phoneNumber = phoneNumber;
         this.bookings = new ArrayList<>();
     }
 
