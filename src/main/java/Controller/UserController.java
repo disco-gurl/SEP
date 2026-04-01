@@ -184,7 +184,7 @@ public void registerEntertainmentProvider() {
      *
      * @param user
      */
-    private void addUser(User user) {
+    public void addUser(User user) {
         users.add(user);
     }
 }
