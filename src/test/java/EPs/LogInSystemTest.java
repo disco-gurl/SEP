@@ -69,7 +69,7 @@ class LogInSystemTest {
 
 
     @Test
-    void Succesfullogin() {
+    void succesfullogin() {
         display.addInput("uniofedi@ed.ac.uk");
         display.addInput("group29");
 
