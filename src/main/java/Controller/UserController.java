@@ -55,6 +55,7 @@ public class UserController extends Controller{
 public void registerEntertainmentProvider() {
         if (getCurrentUser() != null) {
             getView().displayError("You must log out before registering a new entertainment provider.");
+            return;
         }
 
         String orgName = getView().getInput("Enter organisation name: ");
