@@ -1,4 +1,4 @@
-package SystemTests;
+package Staff;
 
 import Controller.EventPerformanceController;
 import Controller.UserController;

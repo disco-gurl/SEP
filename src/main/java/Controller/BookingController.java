@@ -57,6 +57,8 @@ public class BookingController extends Controller{
 
             Booking booking = new Booking(performance, student, numTicketsRequested);
 
+            student.addBooking(booking);
+
             performance.addBooking(booking);
 
             String eventTitle = performance.getEventTitle();
