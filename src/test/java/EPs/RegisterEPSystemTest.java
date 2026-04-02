@@ -299,10 +299,6 @@ class RegisterEntertainmentProviderSystemTests {
                 "Duplicate check should be case-insensitive for org name");
     }
 
-    // ========================================================================
-    // VERIFICATION TESTS (R1b - external verification of business number)
-    // ========================================================================
-
     @Test
     void invalidBusinessNumber() {
         display.addInput("Edinburgh Festivals Ltd");
