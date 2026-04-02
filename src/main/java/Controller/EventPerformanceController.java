@@ -358,6 +358,8 @@ public class EventPerformanceController extends Controller {
             getView().displayError("No performance found with performance ID" + performanceID);
             return;
         }
+
+        getView().displaySpecificPerformance(performance.toString());
     }
 
     // Allows an authenticating user to search for performances on a given date.

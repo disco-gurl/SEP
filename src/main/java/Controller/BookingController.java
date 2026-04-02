@@ -1,6 +1,5 @@
 package Controller;
 import External.MockPaymentSystem;
-import External.PaymentSystem;
 import Performance.Performance;
 import User.Student;
 import Booking.Booking;
@@ -12,31 +11,19 @@ import View.View;
 public class BookingController extends Controller{
     private long nextBookingNumber;
     private final Collection<Performance> performances;
-    private final PaymentSystem paymentSystem;
+    private final MockPaymentSystem paymentSystem;
 
-    public BookingController(View view, Collection<Performance> performances, PaymentSystem paymentSystem) {
+    public BookingController(View view, Collection<Performance> performances, MockPaymentSystem paymentSystem) {
         super(view);
         this.performances = performances;
         this.paymentSystem = paymentSystem;
     }
 
     public void bookPerformance() {
-        //check if they are logged in
-        if (currentUser == null) {
-            view.displayError("You must be logged in to book a performance.");
-            return;
-        }
-
-        if (!checkCurrentUserIsStudent()) {
-            view.displayError("You must be a student to book a performance.");
-            return;
-        }
         Performance performance = null;
         boolean possibleBooking = false;
 
-        while (!possibleBooking) {
-            //check the id through all possible ids
-            performance = null;
+        while (performance == null || !possibleBooking) {
             long performanceID = Long.parseLong(view.getInput("Enter booking info: "));
 
             for (Performance p : performances) {
@@ -48,59 +35,57 @@ public class BookingController extends Controller{
 
             if (performance == null) {
                 view.displayError("Performance with given number does not exist");
-                ;
-            } else {
-                possibleBooking = true;
+                continue;
+            }
+
+            boolean isTicketed = performance.checkIfEventIsTicketed();
+            if (!isTicketed) {
+                view.displayError("The requested performance's event is not ticketed. There is no need to book it.");
+                continue;
+            }
+
+            int numTicketsRequested = Integer.parseInt(view.getInput("Enter number of tickets: "));
+            boolean enoughTickets = performance.checkIfTicketsLeft(numTicketsRequested);
+            if (!enoughTickets) {
+                view.displayError("Requested performance has no tickets left.");
+                continue;
+            }
+
+            possibleBooking = true;
+
+            Student student = (Student) currentUser;
+
+            Booking booking = new Booking(performance, student, numTicketsRequested);
+
+            performance.addBooking(booking);
+
+            String eventTitle = performance.getEventTitle();
+            String studentEmail = student.getEmail();
+            int studentPhone = student.getPhoneNumber();
+            String epEmail = performance.getOrganiserEmail();
+            double finalTicketPrice = performance.getFinalTicketPrice();
+            double transactionAmount = finalTicketPrice * numTicketsRequested;
+
+            boolean paymentSuccessful = paymentSystem.processPayment(
+                    numTicketsRequested, eventTitle, studentEmail, studentPhone, epEmail, transactionAmount
+            );
+
+            if (!paymentSuccessful) {
+                view.displayError("There was an issue with payment.");
+                booking.cancelPaymentFailed();
+                return;
+            }
+
+            int numTicketsSold = performance.getNumTicketsSold();
+            performance.setNumTicketsSold(numTicketsSold + numTicketsRequested);
+
+            view.displaySuccess("Booking successful!");
+
+            String bookingRecord = booking.generateBookingRecord();
+            view.displayBookingRecord(bookingRecord);
+
             }
         }
-
-        //if it is not ticketed then terminates
-        if (!performance.checkIfEventIsTicketed()) {
-            view.displayError("The requested performance's event is not ticketed. There is no need to book it.");
-            return;
-        }
-
-        int numTicketsRequested = Integer.parseInt(view.getInput("Enter number of tickets: "));
-
-        //if the number of tickers wanted is more than available then terminate
-        if (!performance.checkIfTicketsLeft(numTicketsRequested)) {
-            view.displayError("Requested performance does not have enough tickets.");
-            return;
-        }
-
-        Student student = (Student) currentUser;
-        //collect information for student booking record
-        Booking booking = new Booking(performance, student, numTicketsRequested);
-        performance.addBooking(booking);
-
-        String eventTitle = performance.getEventTitle();
-        String studentEmail = student.getEmail();
-        int studentPhone = student.getPhoneNumber();
-        String epEmail = performance.getOrganiserEmail();
-        double finalTicketPrice = performance.getFinalTicketPrice();
-        double transactionAmount = finalTicketPrice * numTicketsRequested;
-
-        boolean paymentSuccessful = paymentSystem.processPayment(
-                numTicketsRequested, eventTitle, studentEmail, studentPhone, epEmail, transactionAmount);
-
-        //check if payment is successful
-        if (!paymentSuccessful) {
-            view.displayError("There was an issue with payment.");
-            booking.cancelPaymentFailed();
-            return;
-        }
-
-        int numTicketsSold = performance.getNumTicketsSold();
-        performance.setNumTicketsSold(numTicketsSold + numTicketsRequested);
-
-        view.displaySuccess("Booking successful!");
-
-        //create booking record
-        String bookingRecord = booking.generateBookingRecord();
-        view.displayBookingRecord(bookingRecord);
-
-    }
-
 
     /**
      *  Review use case
@@ -112,7 +97,7 @@ public class BookingController extends Controller{
         }
 
         // Must be student for review according to requirements.
-        if (!checkCurrentUserIsStudent()) {
+        if (!(getCurrentUser() instanceof Student)) {
             getView().displayError("You must be a student to review a performance.");
             return;
         }
@@ -203,7 +188,7 @@ public class BookingController extends Controller{
             return;
         }
 
-        if (!checkCurrentUserIsStudent()){
+        if (!(getCurrentUser() instanceof Student)){
             getView().displayError("You must be a student to cancel a booking.");
             return;
         }
