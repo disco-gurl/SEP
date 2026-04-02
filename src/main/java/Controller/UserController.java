@@ -34,17 +34,20 @@ public class UserController extends Controller{
     }
 
     public void login() {
-        String email = getView().getInput("Enter email: ");
-        String password = getView().getInput("Enter password: ");
+        while (true) {
+            //loops through until the email and password is correct
+            String email = getView().getInput("Enter email: ");
+            String password = getView().getInput("Enter password: ");
 
-        for (User x : users) {
-            if (x.getEmail().equals(email) && x.checkPassword(password)) {
-                setCurrentUser(x);
-                getView().displaySuccess("Login successful");
-                return;
+            for (User x : users) {
+                if (x.getEmail().equals(email) && x.checkPassword(password)) {
+                    setCurrentUser(x);
+                    getView().displaySuccess("Login successful");
+                    return;
+                }
             }
+            getView().displayError("Invalid email or password");
         }
-        getView().displayError("Invalid email or password");
     }
 
     public void logout() {

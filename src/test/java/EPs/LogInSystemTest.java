@@ -74,117 +74,164 @@ class LogInSystemTest {
         display.addInput("group29");
 
         controller.login();
-        assertEquals("Login successful", display.getLastSuccess(),
-                "Success");
+        assertEquals("Login successful", display.getLastSuccess());
     }
 
     @Test
     void wrongpassword() {
         display.addInput("uniofedi@ed.ac.uk");
         display.addInput("wrongpassword");
+        display.addInput("uniofedi@ed.ac.uk");
+        display.addInput("group29");
 
         controller.login();
-        assertEquals("Invalid email or password", display.getLastError(),
-                "wrong password");
+
+        assertEquals("Invalid email or password", display.getLastError());
+        assertEquals("Login successful", display.getLastSuccess());
     }
 
     @Test
     void wrongemail() {
         display.addInput("wrong@ed.ac.uk");
         display.addInput("group29");
+        display.addInput("uniofedi@ed.ac.uk");
+        display.addInput("group29");
 
         controller.login();
-        assertEquals("Invalid email or password", display.getLastError(),
-                "wrong email");
+
+        assertEquals("Invalid email or password", display.getLastError());
+        assertEquals("Login successful", display.getLastSuccess());
     }
 
     @Test
     void bothwrong() {
         display.addInput("wrong@ed.ac.uk");
         display.addInput("wrongpassword");
+        display.addInput("uniofedi@ed.ac.uk");
+        display.addInput("group29");
 
         controller.login();
-        assertEquals("Invalid email or password", display.getLastError(),
-                "wrong email");
+
+        assertEquals("Invalid email or password", display.getLastError());
+        assertEquals("Login successful", display.getLastSuccess());
     }
 
     @Test
     void emptypassword() {
         display.addInput("uniofedi@ed.ac.uk");
         display.addInput("");
+        display.addInput("uniofedi@ed.ac.uk");
+        display.addInput("group29");
 
         controller.login();
-        assertEquals("Invalid email or password", display.getLastError(),
-                "wrong email");
+
+        assertEquals("Invalid email or password", display.getLastError());
+        assertEquals("Login successful", display.getLastSuccess());
     }
 
     @Test
     void emptyemail() {
         display.addInput("");
         display.addInput("group29");
+        display.addInput("uniofedi@ed.ac.uk");
+        display.addInput("group29");
 
         controller.login();
-        assertEquals("Invalid email or password", display.getLastError(),
-                "wrong email");
+
+        assertEquals("Invalid email or password", display.getLastError());
+        assertEquals("Login successful", display.getLastSuccess());
     }
 
     @Test
     void bothempty() {
         display.addInput("");
         display.addInput("");
+        display.addInput("uniofedi@ed.ac.uk");
+        display.addInput("group29");
 
         controller.login();
-        assertEquals("Invalid email or password", display.getLastError(),
-                "wrong password");
+
+        assertEquals("Invalid email or password", display.getLastError());
+        assertEquals("Login successful", display.getLastSuccess());
     }
 
     @Test
     void emailuppercase() {
         display.addInput("UNIOFEDI@ed.ac.uk");
         display.addInput("group29");
+        display.addInput("uniofedi@ed.ac.uk");
+        display.addInput("group29");
 
         controller.login();
-        assertEquals("Invalid email or password", display.getLastError(),
-                "wrong password");
+
+        assertEquals("Invalid email or password", display.getLastError());
+        assertEquals("Login successful", display.getLastSuccess());
     }
 
     @Test
     void passworduppercase() {
         display.addInput("uniofedi@ed.ac.uk");
         display.addInput("GROUP29");
+        display.addInput("uniofedi@ed.ac.uk");
+        display.addInput("group29");
 
         controller.login();
-        assertEquals("Invalid email or password", display.getLastError(),
-                "wrong password");
+
+        assertEquals("Invalid email or password", display.getLastError());
+        assertEquals("Login successful", display.getLastSuccess());
     }
 
     @Test
     void emailspaces() {
         display.addInput(" uniofedi@ed.ac.uk ");
         display.addInput("group29");
+        display.addInput("uniofedi@ed.ac.uk");
+        display.addInput("group29");
 
         controller.login();
-        assertEquals("Invalid email or password", display.getLastError(),
-                "wrong password");
+
+        assertEquals("Invalid email or password", display.getLastError());
+        assertEquals("Login successful", display.getLastSuccess());
     }
 
     @Test
     void passwordspaces() {
         display.addInput("uniofedi@ed.ac.uk");
         display.addInput(" group29 ");
+        display.addInput("uniofedi@ed.ac.uk");
+        display.addInput("group29");
 
         controller.login();
-        assertEquals("Invalid email or password", display.getLastError(),
-                "wrong password");
+
+        assertEquals("Invalid email or password", display.getLastError());
+        assertEquals("Login successful", display.getLastSuccess());
     }
 
     @Test
     void bothspaces() {
         display.addInput(" uniofedi@ed.ac.uk ");
         display.addInput(" group29 ");
+        display.addInput("uniofedi@ed.ac.uk");
+        display.addInput("group29");
 
         controller.login();
-        assertEquals("Invalid email or password", display.getLastError(),
-                "wrong password");
+
+        assertEquals("Invalid email or password", display.getLastError());
+        assertEquals("Login successful", display.getLastSuccess());
+    }
+
+    @Test
+    void multiplewrongs() {
+        display.addInput("wrong@ed.ac.uk");
+        display.addInput("group29");
+        display.addInput("uniofedi@ed.ac.uk");
+        display.addInput("wrongpassword");
+        display.addInput("uniofedi@ed.ac.uk");
+        display.addInput("group29");
+
+        controller.login();
+
+        assertEquals("Invalid email or password", display.getLastError());
+        assertEquals("Login successful", display.getLastSuccess());
     }
 }

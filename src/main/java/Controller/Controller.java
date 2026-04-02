@@ -28,7 +28,7 @@ public abstract class Controller {
         return currentUser;
     }
 
-    protected void setCurrentUser(User user) {
+    public void setCurrentUser(User user) {
         this.currentUser = user;
     }
 
@@ -45,7 +45,7 @@ public abstract class Controller {
         return currentUser instanceof AdminStaff;
     }
 
-    private boolean checkCurrentUserIsStudent() {
+    protected boolean checkCurrentUserIsStudent() {
         return currentUser instanceof Student;
     }
 
