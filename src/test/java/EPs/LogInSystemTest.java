@@ -14,6 +14,7 @@ class LogInSystemTest {
     private LogInSystemTest.fakeView display;
     private UserController controller;
 
+    //fake view to display inputs
     static class fakeView implements View {
         private Queue<String> inputs = new LinkedList<>();
         private String Success;

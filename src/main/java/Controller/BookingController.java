@@ -1,5 +1,5 @@
 package Controller;
-import External.MockPaymentSystem;
+import External.PaymentSystem;
 import Performance.Performance;
 import User.Student;
 import Booking.Booking;
@@ -11,19 +11,33 @@ import View.View;
 public class BookingController extends Controller{
     private long nextBookingNumber;
     private final Collection<Performance> performances;
-    private final MockPaymentSystem paymentSystem;
+    private final PaymentSystem paymentSystem;
 
-    public BookingController(View view, Collection<Performance> performances, MockPaymentSystem paymentSystem) {
+    public BookingController(View view, Collection<Performance> performances, PaymentSystem paymentSystem) {
         super(view);
         this.performances = performances;
         this.paymentSystem = paymentSystem;
     }
 
     public void bookPerformance() {
+        //check if logged in
+        if (currentUser == null) {
+            view.displayError("You must be logged in to book a performance.");
+            return;
+        }
+
+        //check if student
+        if (!checkCurrentUserIsStudent()) {
+            view.displayError("You must be a student to book a performance.");
+            return;
+        }
+
         Performance performance = null;
         boolean possibleBooking = false;
 
-        while (performance == null || !possibleBooking) {
+        //gets performance id till correct
+        while (!possibleBooking) {
+            performance = null;
             long performanceID = Long.parseLong(view.getInput("Enter booking info: "));
 
             for (Performance p : performances) {
@@ -35,57 +49,58 @@ public class BookingController extends Controller{
 
             if (performance == null) {
                 view.displayError("Performance with given number does not exist");
-                continue;
             }
-
-            boolean isTicketed = performance.checkIfEventIsTicketed();
-            if (!isTicketed) {
-                view.displayError("The requested performance's event is not ticketed. There is no need to book it.");
-                continue;
-            }
-
-            int numTicketsRequested = Integer.parseInt(view.getInput("Enter number of tickets: "));
-            boolean enoughTickets = performance.checkIfTicketsLeft(numTicketsRequested);
-            if (!enoughTickets) {
-                view.displayError("Requested performance has no tickets left.");
-                continue;
-            }
-
-            possibleBooking = true;
-
-            Student student = (Student) currentUser;
-
-            Booking booking = new Booking(performance, student, numTicketsRequested);
-
-            performance.addBooking(booking);
-
-            String eventTitle = performance.getEventTitle();
-            String studentEmail = student.getEmail();
-            int studentPhone = student.getPhoneNumber();
-            String epEmail = performance.getOrganiserEmail();
-            double finalTicketPrice = performance.getFinalTicketPrice();
-            double transactionAmount = finalTicketPrice * numTicketsRequested;
-
-            boolean paymentSuccessful = paymentSystem.processPayment(
-                    numTicketsRequested, eventTitle, studentEmail, studentPhone, epEmail, transactionAmount
-            );
-
-            if (!paymentSuccessful) {
-                view.displayError("There was an issue with payment.");
-                booking.cancelPaymentFailed();
-                return;
-            }
-
-            int numTicketsSold = performance.getNumTicketsSold();
-            performance.setNumTicketsSold(numTicketsSold + numTicketsRequested);
-
-            view.displaySuccess("Booking successful!");
-
-            String bookingRecord = booking.generateBookingRecord();
-            view.displayBookingRecord(bookingRecord);
-
+            else{
+                possibleBooking = true;
             }
         }
+
+        //check if ticketed
+        if (!performance.checkIfEventIsTicketed()) {
+            view.displayError("The requested performance's event is not ticketed. There is no need to book it.");
+            return;
+        }
+
+        //checks if number requested is available
+        int numTicketsRequested = Integer.parseInt(view.getInput("Enter number of tickets: "));
+        if (!performance.checkIfTicketsLeft(numTicketsRequested)) {
+            view.displayError("Requested performance does not have enough tickets.");
+            return;
+        }
+
+        Student student = (Student) currentUser;
+        //get information for student record
+        Booking booking = new Booking(performance, student, numTicketsRequested);
+        student.addBooking(booking);
+
+        String eventTitle = performance.getEventTitle();
+        String studentEmail = student.getEmail();
+        int studentPhone = student.getPhoneNumber();
+        String epEmail = performance.getOrganiserEmail();
+        double finalTicketPrice = performance.getFinalTicketPrice();
+        double transactionAmount = finalTicketPrice * numTicketsRequested;
+
+        boolean paymentSuccessful = paymentSystem.processPayment(
+                numTicketsRequested, eventTitle, studentEmail, studentPhone, epEmail, transactionAmount
+        );
+
+        //check if payment is successful
+        if (!paymentSuccessful) {
+            view.displayError("There was an issue with payment.");
+            booking.cancelPaymentFailed();
+            return;
+        }
+
+        int numTicketsSold = performance.getNumTicketsSold();
+        performance.setNumTicketsSold(numTicketsSold + numTicketsRequested);
+
+        view.displaySuccess("Booking successful!");
+
+        //create booking record
+        String bookingRecord = booking.generateBookingRecord();
+        view.displayBookingRecord(bookingRecord);
+
+    }
 
     /**
      *  Review use case
