@@ -13,7 +13,7 @@ import java.util.Queue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RegisterEntertainmentProviderSystemTests {
+class RegisterEPSystemTest {
 
     private FakeView display;
     private UserController controller;
