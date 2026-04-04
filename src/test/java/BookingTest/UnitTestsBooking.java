@@ -313,7 +313,7 @@ public class UnitTestsBooking {
     @Test
     public void testGetStudentDetailsContainsPhoneNumber() {
         Booking booking = new Booking(ticketedPerformance, student, 1);
-        assertTrue(booking.getStudentDetails().contains("7911123456"),
+        assertTrue(booking.getStudentDetails().contains("791112345"),
                 "getStudentDetails() should contain the student's phone number");
     }
 
