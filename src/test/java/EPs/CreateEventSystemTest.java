@@ -65,7 +65,8 @@ class CreateEventSystemTest {
         userController = new UserController(display, new fakeVerificationService());
         epController = new EventPerformanceController(display);
 
-        userController.addUser(new Student("student@ed.ac.uk", "studentpass", "Alice", 123456789));
+        userController.addUser(new Student("student@ed.ac.uk", "studentpass", "Alice",
+                123456789));
         userController.addUser(new AdminStaff("admin@ed.ac.uk", "adminpass"));
 
         //register an EP

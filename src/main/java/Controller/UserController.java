@@ -98,7 +98,8 @@ public void registerEntertainmentProvider() {
         }
 
         if (EPAccountAlreadyExists(email, orgName, businessNumber)) {
-            getView().displayError("An entertainment provider with the same organisation name and business number already exists");
+            getView().displayError("An entertainment provider with the same organisation name and " +
+                    "business number already exists");
             return;
         }
 
@@ -107,14 +108,15 @@ public void registerEntertainmentProvider() {
             return;
         }
 
-        EntertainmentProvider newEP = new EntertainmentProvider(email, password, orgName, businessNumber, name, description);
+        EntertainmentProvider newEP = new EntertainmentProvider(email, password, orgName, businessNumber,
+                name, description);
         addUser(newEP);
         getView().displaySuccess(orgName + " has been successfully registered.");
 
     }
 
 
-    // Edit preferences use case, lets a student set which event types they prefer.
+    // edit preferences use case, lets student set which event types they prefer
     //they enter a comma separated string like "Music,Dance,Sports"
     public void editPreferences() {
         if (getCurrentUser() == null) {

@@ -57,7 +57,8 @@ public class BookingController extends Controller{
 
         //check if ticketed
         if (!performance.checkIfEventIsTicketed()) {
-            view.displayError("The requested performance's event is not ticketed. There is no need to book it.");
+            view.displayError("The requested performance's event is not ticketed. " +
+                    "There is no need to book it.");
             return;
         }
 
@@ -111,7 +112,7 @@ public class BookingController extends Controller{
             return;
         }
 
-        // Must be student for review according to requirements.
+        // must be student for review
         if (!(getCurrentUser() instanceof Student)) {
             getView().displayError("You must be a student to review a performance.");
             return;
@@ -155,7 +156,7 @@ public class BookingController extends Controller{
     // Checks if review is possible after time has passed only and only if student has had a booking.
     private boolean studentReviewPossible(Student student, Performance performance) {
         if (performance.checkHasNotHappenedYet()) {
-            getView().displayError("You can only review performancesthat have already taken place.");
+            getView().displayError("You can only review performances that have already taken place.");
             return false;
         }
 
@@ -197,7 +198,7 @@ public class BookingController extends Controller{
         return null;
     }
 
-    public void cancelBooking(int bookingID){
+    public void cancelBooking(long bookingID){
         if (getCurrentUser() == null){
             getView().displayError("You must be logged in to cancel a booking.");
             return;

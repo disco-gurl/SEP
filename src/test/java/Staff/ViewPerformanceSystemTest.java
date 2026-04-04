@@ -137,7 +137,8 @@ class ViewPerformanceSystemTest {
         epController = new EventPerformanceController(display);
 
         // Pre-register a student and an admin (as per requirements, they are pre-registered)
-        userController.addUser(new Student("student@ed.ac.uk", "studentpass", "Alice", 123456789));
+        userController.addUser(new Student("student@ed.ac.uk", "studentpass", "Alice",
+                123456789));
         userController.addUser(new AdminStaff("admin@ed.ac.uk", "adminpass"));
 
         // Register an EP and create a ticketed event with one performance

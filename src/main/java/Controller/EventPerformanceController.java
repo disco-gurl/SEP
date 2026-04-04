@@ -120,7 +120,7 @@ public class EventPerformanceController extends Controller {
             return null;
         }
 
-        String ticketedInput = getView().getInput("Is the event ticketed? (yes/no): ");
+        String ticketedInput = getView().getInput("Is the event ticketed? ");
         boolean isTicketed;
         if (ticketedInput.trim().equalsIgnoreCase("yes")) {
             isTicketed = true;
@@ -199,10 +199,10 @@ public class EventPerformanceController extends Controller {
                 continue;
             }
 
-            String outdoorsInput = getView().getInput("Is the venue outdoors? (yes/no): ");
+            String outdoorsInput = getView().getInput("Is the venue outdoors? ");
             boolean venueIsOutdoors = outdoorsInput.trim().equalsIgnoreCase("yes");
 
-            String smokingInput = getView().getInput("Does the venue allow smoking? (yes/no): ");
+            String smokingInput = getView().getInput("Does the venue allow smoking? ");
             boolean venueAllowsSmoking = smokingInput.trim().equalsIgnoreCase("yes");
 
             // only ask for ticket info if the event is ticketed
@@ -250,7 +250,7 @@ public class EventPerformanceController extends Controller {
 
             getView().displaySuccess("Performance added successfully (ID: " + performance.getID() + ").");
 
-            String moreInput = getView().getInput("Add another performance? (yes/no): ");
+            String moreInput = getView().getInput("Would you like to add another performance? ");
             if (!moreInput.trim().equalsIgnoreCase("yes")) {
                 adding = false;
             }
