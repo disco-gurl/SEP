@@ -300,7 +300,7 @@ class ReviewPerformanceSystemTest {
         display.addInput("2");
         bookingController.reviewPerformance();
 
-        assertEquals("You can only review performancesthat have already taken place.",
+        assertEquals("You can only review performances that have already taken place.",
                 display.getLastError(),
                 "Reviewing a performance that has not yet happened should give an error");
     }
